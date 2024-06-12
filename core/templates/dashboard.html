@@ -16,20 +16,51 @@
         <nav class="mt-8">
             <ul class="space-y-2">
                 <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-700">School Management</a>
+                    <a href="{% url "dashboard" %}" class="block py-2 px-4 hover:bg-gray-700">Home</a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-700">Teachers Management</a>
+                    <a href="#" class="block py-2 px-4 hover:bg-gray-700" data-toggle="student-management">Student Management</a>
+                    <ul class="space-y-2 ml-4 hidden bg-slate-900" id="student-management">
+                        <li><a href="{% url "add-student" %}" class="block py-2 px-4 hover:bg-gray-700">Add Student</a></li>
+                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-700">Manage Students</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="block py-2 px-4 hover:bg-gray-700" data-toggle="teacher-management">Teachers Management</a>
+                    <ul class="space-y-2 ml-4 hidden bg-slate-900" id="teacher-management">
+                        <li><a href="{% url "add-teacher" %}" class="block py-2 px-4 hover:bg-gray-700">Add Teacher</a></li>
+                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-700">Manage Teachers</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#" class="block py-2 px-4 hover:bg-gray-700">Attendance</a>
                 </li>
             </ul>
         </nav>
+
     </aside>
     <main class="ml-64 p-8">
         <!-- Your main content goes here -->
-         <h1>Dashboard</h1>
+         {% block content %}
+            
+         {% endblock content %}
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggles = document.querySelectorAll('[data-toggle]');
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-toggle');
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        targetElement.classList.toggle('hidden');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
