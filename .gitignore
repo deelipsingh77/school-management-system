@@ -16,7 +16,7 @@ db.sqlite3
 /media/
 
 # Virtual environment
-venv/
+.venv/
 
 # Log files
 *.log
