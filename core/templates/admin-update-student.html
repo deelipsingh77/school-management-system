@@ -1,0 +1,62 @@
+{% extends 'components/admin-dashboard-base.html' %}
+
+{% block content %}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style>
+    .form-container {
+      margin: 100px;
+    }
+    .btn-primary {
+      background-color: royalblue;
+    }
+   select.form-control {
+      height: auto; /* Ensures the height is automatically adjusted */
+      min-height: 38px; /* Ensures the minimum height is reasonable */
+    }
+  </style>
+</head>
+
+<div class="container form-container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title">Update Student</h6>
+    </div>
+    <div class="panel-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{ student.name }}" required>
+        </div>
+        <div class="form-group">
+          <label for="class_name">Class:</label>
+          <select class="form-control" id="class_name" name="class_name" required>
+            {% for class in classes %}
+              <option value="{{ class.id }}" {% if student.class_name.id == class.id %}selected{% endif %}>{{ class.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="monthly_fee">Monthly Fee:</label>
+          <input type="number" class="form-control" id="monthly_fee" name="monthly_fee" value="{{ student.monthly_fee }}" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <textarea class="form-control" id="address" name="address" required>{{ student.address }}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="contact_no">Contact Number:</label>
+          <input type="text" class="form-control" id="contact_no" name="contact_no" value="{{ student.contact_no }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Student</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

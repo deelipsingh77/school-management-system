@@ -2,12 +2,12 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
 def login_page(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('dashboard')
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -24,9 +24,10 @@ def login_page(request):
 
     return render(request, 'login.html')
 
-def logout_page(request):
-    logout(request)
-    return redirect('login')
+@login_required(login_url='/auth/login/')
+def logout_user(request):
+    logout(request) 
+    return redirect('/auth/login')
     
 def signup_page(request):
     if request.method == 'POST':

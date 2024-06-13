@@ -1,0 +1,154 @@
+{% extends 'components/admin-dashboard-base.html' %}
+
+{% block content %}
+  <style media="screen">
+    .note {
+      text-align: center;
+      height: 80px;
+      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+      color: #fff;
+      font-weight: bold;
+      line-height: 80px;
+    }
+
+    .form-content {
+      padding: 5%;
+      border: 1px solid #ced4da;
+      margin-bottom: 2%;
+    }
+
+    .form-control {
+      border-radius: 1.5rem;
+    }
+
+    .btnSubmit {
+      border: none;
+      border-radius: 1.5rem;
+      padding: 1% 3%;
+      cursor: pointer;
+      background: #0062cc;
+      color: #fff;
+    }
+
+    .horizontal-list {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -5px; /* adjust for Bootstrap's default column padding */
+      margin-right: -5px; /* adjust for Bootstrap's default column padding */
+    }
+
+    .horizontal-list .form-check {
+      flex: 0 0 33.333%; /* adjust the width of each item (3 items per row) */
+      padding-left: 5px; /* adjust for Bootstrap's default column padding */
+      padding-right: 5px; /* adjust for Bootstrap's default column padding */
+    }
+
+    .error-card {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #e74c3c;
+            border-radius: 5px;
+            background-color: #f9f2f4;
+            color: #e74c3c;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .error-card .card-header {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .error-card .card-body {
+            padding: 10px;
+        }
+
+        .error-card .error-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .error-card .error-list li {
+            margin-bottom: 5px;
+        }
+
+        .error-card .error-list i {
+            margin-right: 5px;
+        }
+  </style>
+
+  {% block styles %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  {% endblock %}
+
+  {% if messages %}
+    <div class="error-card">
+        <div class="card-header">
+            <i class="fas fa-exclamation-circle"></i> Errors Occurred
+        </div>
+        <div class="card-body">
+            <ul class="error-list">
+                {% for message in messages %}
+                    <li><i class="fas fa-times-circle"></i> {{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="note">
+                <p>Add a New Teacher</p>
+              </div>
+
+              <div class="form-content">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="First Name" name="first_name" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Last Name" name="last_name" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Username" name="username" required>
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password" name="password" required>
+                </div>
+                <div class="form-group">
+                  <input type="number" class="form-control" placeholder="Phone No." name="contact_no" required>
+                </div>
+                <div class="form-group">
+                  <input type="number" class="form-control" placeholder="Salary" name="salary" required>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" placeholder="Address" name="address" required></textarea>
+                </div>
+                <div class="form-group">
+                  <p>Classes:</p>
+                  <div class="horizontal-list">
+                    {% for class in classes %}
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="class_{{ class.id }}" name="classes" value="{{ class.id }}">
+                        <label class="form-check-label" for="class_{{ class.id }}">{{ class.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <button type="submit" class="btnSubmit">Hire</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+{% endblock content %}

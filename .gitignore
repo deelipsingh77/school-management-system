@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+migrations/
 *.py[cod]
 *$py.class
 
@@ -8,9 +9,6 @@ __pycache__/
 
 # Database
 db.sqlite3
-
-# Static files
-/static/
 
 # Media files
 /media/

@@ -1,0 +1,104 @@
+{% extends 'components/admin-dashboard-base.html' %}
+
+{% block content %}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+    h6 {
+      text-align: center;
+    }
+    .row {
+      margin: 100px;
+    }
+    .delete-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .update-btn {
+      background-color: royalblue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<div class="container">
+  {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+  {% endif %}
+  
+  <div class="row">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h6 class="panel-title">Students</h6>
+      </div>
+
+      <table class="table table-hover" id="dev-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Mobile</th>
+            <th>Monthly Fee</th>
+            <th>Address</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students %}
+            <tr>
+              <td>{{ student.name }}</td>
+              <td>{{ student.class_name.name }}</td>
+              <td>{{ student.contact_no }}</td>
+              <td>{{ student.monthly_fee }}</td>
+              <td>{{ student.address }}</td>
+              <td>
+                <a href="{% url 'update_student' student.id %}">
+                  <button class="update-btn">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </button>
+                </a>
+              </td>
+              <td>
+                <form method="post" action="{% url 'delete_student' student.id %}">
+                  {% csrf_token %}
+                  <button class="delete-btn">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
