@@ -1,61 +1,103 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <style type="text/css">
-      .bs-example {
-        margin: 0px;
-      }
+  <style type="text/css">
+    .bs-example {
+      margin: 0px;
+    }
 
-      .navbar-brand {
-        font-size: 20px;
-        font-family: sans-serif;
-      }
-    </style>
-  </head>
+    .navbar-brand {
+      font-size: 20px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="bs-example">
+    <!--<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+      {% comment %} <a href="/" class="navbar-brand">School Management</a> {% endcomment %}
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <body>
-    <div class="bs-example">
-      <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-        <a href="/" class="navbar-brand">School Management</a>
-        <button
-          type="button"
-          class="navbar-toggler"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav">
+        </div>
+        
+        <div class="navbar-nav">
+          <a href="{% url "index" %}" class="nav-item nav-link text-white">Home</a>
+          <a href="#" class="nav-item nav-link text-white" data-toggle="modal" data-target="#noticeModal">Notice</a>
+          <a href="{% url "login" %}" class="nav-item nav-link text-white">Login</a>
+          {% comment %} <a href="/about" class="nav-item nav-link">About Us</a> {% endcomment %}
+          <a href="/contact" class="nav-item nav-link text-white">Contact Us</a>
+        </div>
+      </div>
+    </nav> -->
 
-        <div
-          class="collapse navbar-collapse justify-content-between"
-          id="navbarCollapse"
-        >
-          <div class="navbar-nav">
-            <a href="/" class="nav-item nav-link active">Home</a>
-            <a href="/faculty" class="nav-item nav-link">Faculty Portal</a>
-            <a href="/student" class="nav-item nav-link">Student Portal</a>
-          </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url "index" %}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-item nav-link text-white" data-toggle="modal" data-target="#noticeModal">Notice</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/contact">Contact Us</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link btn btn-primary" href="{% url "login" %}">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+  </div>
 
-          <div class="navbar-nav">
-            <a href="/about" class="nav-item nav-link">About Us</a>
-            <a href="/contact" class="nav-item nav-link">Contact Us</a>
+  <!-- Notice Modal -->
+  <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="noticeModalLabel">Notice</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Place your static notification content here -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-12">
+                {% for n in all_notices %}
+                <div class="alert alert-dismissible alert-info">
+                  {% comment %} <button type="button" class="close" data-dismiss="alert">&times;</button> {% endcomment %}
+                  <div class="date-uploader">
+                    <div>{{ n.added_by }}</div>
+                    <div>{{ n.date }}</div>
+                  </div>
+                  <h5>{{ n.title }}</h5>
+                  <h6>{{ n.description }}</h6>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
-      </nav>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>

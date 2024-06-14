@@ -18,6 +18,7 @@ def about(request):
     return render(request, 'about.html')
 
 def contact(request):
-    return render(request, 'contact.html')
+    all_notices = Notice.objects.all().order_by('-date')
+    return render(request, 'contact.html', {"all_notices": all_notices})
 
 

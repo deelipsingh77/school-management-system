@@ -12,6 +12,7 @@
         background-image: url('{% static "images/bg2.jpg" %}');
         background-size: cover;
         background-repeat: no-repeat;
+        height: 500px; 
       }
 
       .jumbotron h1 {
@@ -49,34 +50,20 @@
 
   <body>
     {% include "components/navbar.html" %}
-    <br />
-    <br />
-    <div class="jumbotron" style="margin-bottom: 0px; margin-top: 0px">
-      <br />
-      <h1 class="display-4 glow">Welcome</h1>
 
+    <div class="jumbotron">
+      <br />
       <br /><br />
-      <p>Knowledge is key to success.</p>
       <br /><br /><br /><br /><br />
       <p class="lead">
-        <a class="btn btn-primary btn-lg" href="/studentsignup" role="button"
-          >Take Admission</a
-        >
       </p>
       <br /><br />
     </div>
 
-    <br />
-    <br />
-    <br /><br />
-
-    {% include "components/notice.html" %}
-    <br />
-    <br />
-    <br />
-    <br />
+    {% include "components/about-component.html" %}
     <br />
     {% include "components/admin_teacher_student_card.html" %}
+
 
     <br /><br />
     <br />

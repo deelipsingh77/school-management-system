@@ -7,18 +7,22 @@
       <div class="row">
         <div class="col-lg-12">
           {% for n in all_notices %}
-          <div class="alert alert-dismissible alert-info">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <div class="alert alert-dismissible alert-info d-flex align-items-center">
             <div class="date-uploader">
               <div>{{ n.added_by }}</div>
               <div>{{ n.date }}</div>
             </div>
-            <h5>{{ n.title }}</h5>
-            <h6>{{ n.description }}</h6>
+            <div class="notice-content">
+              <h5>{{ n.title }}</h5>
+              <h6>{{ n.description }}</h6>
+            </div>
+            <button type="button" class="close ml-auto" data-dismiss="alert">&times;</button>
           </div>
           {% endfor %}
         </div>
       </div>
     </div>
+    
+
   </div>
 </div>

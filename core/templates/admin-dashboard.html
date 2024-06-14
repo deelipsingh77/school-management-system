@@ -44,7 +44,7 @@
   {%include 'components/admin-dashboard-cards.html'%}
 
   <br><br>
-  <div class="container mt-4">
+  {% comment %} <div class="container mt-4">
     <div class="card">
       <div class="card-header bg-primary text-white">
         Notice Board
@@ -55,8 +55,6 @@
             {% for n in all_notices %}
             <div class="alert alert-dismissible alert-info">
               <button type="button" class="close" data-dismiss="alert">&times;</button>
-              {% comment %} <strong>{{ n.date }} || by: {{ n.added_by }}</strong><br>
-              <strong>{{ n.title }}</strong> {{ n.description }} {% endcomment %}
               <div class="date-uploader">
                 <div>{{ n.added_by }}</div>
                 <div>{{ n.date }}</div>
@@ -69,7 +67,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
   
   
 {% endblock content %}
