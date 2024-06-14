@@ -1,0 +1,44 @@
+{% extends 'components/admin-dashboard-base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Attendance List for {{ selected_class.name }}</h2>
+
+    <form method="get" class="form-inline mb-3">
+        <div class="form-group mr-3">
+            <label for="date">Select Date:</label>
+            <input type="date" class="form-control mx-2" id="date" name="date" value="{{ selected_date }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Show Attendance</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+            <tr class="{% if record.present %}table-success{% else %}table-danger{% endif %}">
+                <td>{{ record.student.name }}</td>
+                <td>{{ record.date }}</td>
+                <td>
+                    {% if record.present %}
+                        Present
+                    {% else %}
+                        Absent
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No attendance records found for the selected date.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

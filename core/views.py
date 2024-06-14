@@ -26,7 +26,7 @@ def dashboard(request):
     total_pending_salaries = unpaid_salaries.aggregate(total_pending=Sum(F('teacher__salary') - F('amount_paid')))['total_pending'] or 0
 
     # All notices
-    all_notices = Notice.objects.all()
+    all_notices = Notice.objects.all().order_by('-date')
 
     context = {
         'student_count': student_count,
@@ -210,44 +210,89 @@ def attendance(request):
     return render(request, 'attendance.html')
 
 @login_required(login_url='/auth/login/')
-def select_date_class(request):
+def select_class(request, type):
     if request.method == 'POST':
         class_id = request.POST.get('class_id')
-        date_selected = request.POST.get('date')
-
-        if class_id and date_selected:
-            return redirect('mark_attendance', class_id=class_id, date_selected=date_selected)
-
-        messages.error(request, 'Please select both date and class.')
-
-    classes = Class.objects.all()
-    context = {
-        'classes': classes,
-    }
-    return render(request, 'select_date_class.html', context)
+        if class_id:
+            # Redirect to the page for taking attendance for the selected class
+            if type == 'mark':
+                return redirect(f'/mark-attendance/{class_id}/')
+            elif type == 'list':
+                return redirect(f'/attendance-list/{class_id}/')
+        else:
+            # Handle case where no class is selected (though should be handled by required attribute in HTML)
+            # You can customize this based on your specific needs
+            return render(request, 'select_class.html', {'classes': Class.objects.all()})
+    return render(request, 'select_class.html', {'classes': Class.objects.all()})
 
 @login_required(login_url='/auth/login/')
-def mark_attendance(request, class_id, attendance_date):
+def mark_attendance(request, class_id):
     selected_class = get_object_or_404(Class, id=class_id)
     students = Student.objects.filter(class_name=selected_class)
-
-    # Convert attendance_date from string to datetime object
-    attendance_date = datetime.strptime(attendance_date, '%Y-%m-%d').date()
-
-    # Create a dictionary to store attendance status for each student
-    attendance_status = {}
-    for student in students:
-        try:
-            attendance = student.studentattendance_set.get(date=attendance_date)
-            attendance_status[student.id] = attendance.present
-        except StudentAttendance.DoesNotExist:
-            attendance_status[student.id] = False  # Default to False if no attendance record exists
+    
+    if request.method == 'POST':
+        for student in students:
+            present = request.POST.get(f'student_{student.id}') == 'present'
+            attendance_record, created = StudentAttendance.objects.get_or_create(
+                student=student,
+                date=date.today(),
+                defaults={'present': present}
+            )
+            if not created:
+                attendance_record.present = present
+                attendance_record.save()
+        
+        return redirect('/attendance')
 
     context = {
         'selected_class': selected_class,
-        'attendance_date': attendance_date,
         'students': students,
-        'attendance_status': attendance_status,
     }
-
     return render(request, 'mark-attendance.html', context)
+
+@login_required(login_url='/auth/login/')
+def attendance_list(request, class_id):
+    selected_class = get_object_or_404(Class, id=class_id)
+    date_str = request.GET.get('date', '')  # Get date from query parameter
+    if date_str:
+        try:
+            date = datetime.strptime(date_str, '%Y-%m-%d').date()  # Convert date string to datetime.date
+        except ValueError:
+            date = None
+    else:
+        date = None
+    
+    if date:
+        # Retrieve attendance records for the selected class and date
+        attendance_records = StudentAttendance.objects.filter(student__class_name=selected_class, date=date)
+    else:
+        attendance_records = []
+
+    context = {
+        'selected_class': selected_class,
+        'attendance_records': attendance_records,
+        'selected_date': date_str,  # Pass the selected date to the template
+    }
+    return render(request, 'attendance-list.html', context)
+
+@login_required(login_url='/auth/login/') 
+def add_notice_view(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        
+        # Assuming you have authentication and request.user is a Teacher instance
+        added_by = request.user.teacher
+        
+        # Create the notice object
+        notice = Notice.objects.create(
+            title=title,
+            description=description,
+            added_by=added_by,
+            date=date.today()
+        )
+        
+        messages.success(request, 'Notice added successfully.')
+        return redirect('/dashboard')  # Replace 'dashboard' with your actual dashboard URL name
+    else:
+        return render(request, 'add_notice.html')

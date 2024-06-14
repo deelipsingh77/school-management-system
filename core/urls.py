@@ -19,6 +19,9 @@ urlpatterns = [
     path('update-student/<int:student_id>/', views.update_student, name='update_student'),
 
     path('attendance/', views.attendance, name='attendance'),
-    path('select-date-class/', views.select_date_class, name='select_date_class'),
-    path('mark-attendance/<int:class_id>/<str:attendance_date>/', views.mark_attendance, name='mark_attendance'),
+    path('select-class/<str:type>/', views.select_class, name='select_class'),
+    path('mark-attendance/<int:class_id>/', views.mark_attendance, name='mark_attendance'),
+    path('attendance-list/<int:class_id>/', views.attendance_list, name='attendance_list'),
+    
+    path('notice/', views.add_notice_view, name='notice'),
 ]

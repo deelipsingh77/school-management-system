@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
 
+from core.models import Notice
+
 def home(request):
-    return render(request, 'index.html')
+    all_notices = Notice.objects.all().order_by('-date')
+    return render(request, 'index.html', {"all_notices": all_notices})
 
 def faculty(request):
     if request.user.is_authenticated:
@@ -16,4 +19,5 @@ def about(request):
 
 def contact(request):
     return render(request, 'contact.html')
+
 

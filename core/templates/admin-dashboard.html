@@ -30,6 +30,11 @@
       .closebtn:hover {
         color: black;
       }
+
+      .date-uploader {
+        display: flex;
+        justify-content: space-between;
+      }
     </style>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   {% endblock styles %}
@@ -39,13 +44,32 @@
   {%include 'components/admin-dashboard-cards.html'%}
 
   <br><br>
-  <div class="w3-panel w3-blue ">
-    <p>Notice Board</p>
-  </div><br>
-  {%for n in all_notices%}
-    <div class="alert">
-      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-      <strong>{{n.date}} ||By :{{n.added_by}} </strong><br><strong>{{n.title}}</strong> {{n.description}}
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        Notice Board
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            {% for n in all_notices %}
+            <div class="alert alert-dismissible alert-info">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {% comment %} <strong>{{ n.date }} || by: {{ n.added_by }}</strong><br>
+              <strong>{{ n.title }}</strong> {{ n.description }} {% endcomment %}
+              <div class="date-uploader">
+                <div>{{ n.added_by }}</div>
+                <div>{{ n.date }}</div>
+              </div>
+              <h5>{{ n.title }}</h5>
+              <h6>{{ n.description }}</h6>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
-  {%endfor%}
+  </div>
+  
+  
 {% endblock content %}

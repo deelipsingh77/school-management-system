@@ -71,26 +71,26 @@
       <div class="col-md-4 col-xl-3">
         <div class="card bg-c-blue order-card">
           <div class="card-block">
-            <a href="{% url 'select_date_class' %}">
+            <a href="{% url 'select_class' 'mark' %}">
               <h6 class="m-b-20">Take Attendance</h6>
+            </a>
+            <br>
+            <h2 class="text-right"><i class="fas fa-plus-circle f-left"></i></h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-xl-3">
+        <div class="card bg-c-green order-card">
+          <div class="card-block">
+            <a href="{% url 'select_class' 'list' %}">
+              <h6 class="m-b-20">View Attendance</h6>
             </a>
             <br>
             <h2 class="text-right"><i class="fas fa-eye f-left"></i></h2>
           </div>
         </div>
       </div>
-
-      {% comment %} <div class="col-md-4 col-xl-3">
-        <div class="card bg-c-green order-card">
-          <div class="card-block">
-            <a href="{% url 'add_student' %}">
-              <h6 class="m-b-20">View Attendance</h6>
-            </a>
-            <br>
-            <h2 class="text-right"><i class="fas fa-plus-circle f-left"></i></h2>
-          </div>
-        </div>
-      </div> {% endcomment %}
 
     </div>
     <br><br><br><br><br><br><br><br>
